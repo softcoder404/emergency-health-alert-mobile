@@ -1,3 +1,4 @@
+import 'package:health_emergency_report/app/components/buttons/primary_button.dart';
 import 'package:health_emergency_report/app/config/themes/colors.dart';
 import 'package:health_emergency_report/app/config/themes/spacing.dart';
 import 'package:health_emergency_report/app/config/themes/styles.dart';
@@ -51,10 +52,49 @@ class AccountView extends StatelessWidget {
                     AccountMenuCard(
                       title: 'Change Password',
                       iconData: Icons.password,
+                      onTap: () => Get.bottomSheet(
+                        Container(
+                          padding: EdgeInsets.all(20.0),
+                          decoration: BoxDecoration(
+                              color: white,
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(8.0),
+                                topRight: Radius.circular(8.0),
+                              )),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text(
+                                'Change Password',
+                                style: kBodyText1,
+                              ),
+                              vSpaceMedium,
+                              TextFormField(
+                                decoration: InputDecoration(
+                                  hintText: 'New Password',
+                                ),
+                              ),
+                              vSpaceMedium,
+                              TextFormField(
+                                decoration: InputDecoration(
+                                  hintText: 'Confirm New Password',
+                                ),
+                              ),
+                              Spacer(),
+                              PrimaryButton(
+                                title: 'Submit',
+                              ),
+                              vSpaceMedium
+                            ],
+                          ),
+                        ),
+                      ),
                     ),
                     AccountMenuCard(
                       title: 'Talk to Us',
                       iconData: Icons.call,
+                      onTap: controller.onTalkToUs,
                     ),
                   ],
                 ),

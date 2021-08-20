@@ -49,7 +49,7 @@ class BottomNavBarWidget extends StatelessWidget {
             Icons.health_and_safety,
             color: kPrimaryColor,
           ),
-          label: 'Emergency Alert',
+          label: 'Emergency Help',
         ),
         BottomNavigationBarItem(
           icon: Icon(
