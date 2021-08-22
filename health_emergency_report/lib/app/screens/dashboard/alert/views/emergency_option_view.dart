@@ -35,7 +35,7 @@ class EmergencyOptionView extends StatelessWidget {
         ],
       ),
       body: GetBuilder<EmergencyOptionController>(
-        builder: (_) => Container(
+        builder: (_controller) => Container(
           height: screenHeight(context),
           width: screenWidth(context),
           padding: EdgeInsets.all(15.0),
@@ -67,9 +67,13 @@ class EmergencyOptionView extends StatelessWidget {
                       .toList(),
                 ),
               ),
-              PrimaryButton(
-                title: 'Submit',
-                onTap: _controller.onSubmit,
+              SizedBox(
+                height: 50,
+                width: double.infinity,
+                child: PrimaryButton(
+                  title: 'Submit',
+                  onTap: _controller.onSubmit,
+                ),
               )
             ],
           ),

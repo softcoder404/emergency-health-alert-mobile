@@ -7,7 +7,6 @@ import 'package:health_emergency_report/app/screens/auth/controllers/login.contr
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 import 'package:get/get.dart';
-import 'package:health_emergency_report/app/screens/auth/views/forgot_password_view.dart';
 import 'package:health_emergency_report/app/screens/auth/views/signup_view.dart';
 import 'package:health_emergency_report/core/helpers/form_validator_utils.dart';
 
@@ -60,7 +59,7 @@ class LoginView extends StatelessWidget {
                     ),
                     vSpaceSmall,
                     TextFormField(
-                      obscureText: loginController.showPassword,
+                      obscureText: !loginController.showPassword,
                       controller: loginController.passwordCtrl,
                       focusNode: loginController.passwordNode,
                       validator: (value) =>

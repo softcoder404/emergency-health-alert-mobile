@@ -8,7 +8,7 @@ const black = Color(0xff000000);
 const transparent = Colors.transparent;
 
 // status color
-const kSuccessColor = Color(0xFF8DEC15);
+const kSuccessColor = Color(0xFF22bb33);
 const kFailureColor = Color(0xFFF90B0B);
 const kWarningColor = Color(0xFFFFE39A);
 const kIndicatorColor = Color.fromRGBO(1, 32, 114, 0.3);

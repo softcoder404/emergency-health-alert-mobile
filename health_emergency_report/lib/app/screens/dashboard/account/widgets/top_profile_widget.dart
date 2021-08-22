@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:health_emergency_report/app/config/themes/colors.dart';
 import 'package:health_emergency_report/app/config/themes/spacing.dart';
@@ -28,9 +27,8 @@ class TopProfileCard extends StatelessWidget {
           CircleAvatar(
             radius: 35,
             backgroundColor: black,
-            backgroundImage: AssetImage(
-              'assets/images/profile.jpg',
-            ),
+            backgroundImage: NetworkImage(
+                'https://eu.ui-avatars.com/api/?background=random&name=$fullName'),
           ),
           vSpaceTiny,
           Text(

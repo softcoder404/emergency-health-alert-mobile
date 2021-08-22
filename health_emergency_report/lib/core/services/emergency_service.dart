@@ -1,15 +1,16 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:health_emergency_report/core/helpers/response_helper.dart';
+import 'package:health_emergency_report/core/model/emergency_history_model.dart';
 import 'package:http/http.dart' as http;
 
-class AuthenticationService {
+class EmergencyService {
   static final String baseUrl =
       'https://emergencyhealthalertsystem.herokuapp.com';
 
-  static Future<NetworkResponse> register(Map<String, dynamic> payload) async {
+  static Future<NetworkResponse> report(Map<String, dynamic> payload) async {
     final _client = http.Client();
-    final url = '$baseUrl/auth/register';
+    final url = '$baseUrl/emergency/report';
 
     var result = NetworkResponse.warning();
     try {
@@ -49,16 +50,15 @@ class AuthenticationService {
     return result;
   }
 
-  static Future<NetworkResponse> login(Map<String, dynamic> user) async {
-    final String endPoint = '/auth/login';
+  static Future<NetworkResponse> cancelRequest(String _id) async {
+    final String endPoint = '/emergency/$_id';
     final url = baseUrl + endPoint;
     final _client = http.Client();
     var result = NetworkResponse.warning();
     try {
       //do some logic
-      final response = await _client.post(
+      final response = await _client.delete(
         Uri.parse(url),
-        body: json.encode(user),
         headers: {
           HttpHeaders.acceptHeader: 'application/json',
           HttpHeaders.contentTypeHeader: 'application/json',
@@ -90,16 +90,15 @@ class AuthenticationService {
     return result;
   }
 
-  static Future<NetworkResponse> resetPassword(String email) async {
-    final String endPoint = '/auth/resetPassword';
+  static Future<NetworkResponse> getUserEmergencyHistory(String uid) async {
+    final String endPoint = '/emergency/user/$uid';
     final url = baseUrl + endPoint;
     final _client = http.Client();
     var result = NetworkResponse.warning();
     try {
       //do some logic
-      final response = await _client.post(
+      final response = await _client.get(
         Uri.parse(url),
-        body: json.encode({"email": email}),
         headers: {
           HttpHeaders.acceptHeader: 'application/json',
           HttpHeaders.contentTypeHeader: 'application/json',
@@ -112,9 +111,13 @@ class AuthenticationService {
           if (data['message'] is String) {
             result.message = data['message'];
           }
-        } else if (data['data'] is Map) {
+        } else if (data['data'] is List) {
+          List<EmergencyHistoryModel> _data = [];
+          data['data'].forEach(
+              (json) => _data.add(EmergencyHistoryModel.fromJson(json)));
           result = NetworkResponse.success(
             message: data['message'],
+            data: _data,
           );
         }
       } else if (response.statusCode >= HttpStatus.badRequest) {
@@ -131,16 +134,15 @@ class AuthenticationService {
     return result;
   }
 
-  static Future<NetworkResponse> updateUserAccount(
-      Map<String, dynamic> payload, String uid) async {
-    final String endPoint = '/users/$uid';
+  static Future<NetworkResponse> getAllEmergencyHistory() async {
+    final String endPoint = '/emergency';
     final url = baseUrl + endPoint;
     final _client = http.Client();
     var result = NetworkResponse.warning();
     try {
-      final response = await _client.patch(
+      //do some logic
+      final response = await _client.get(
         Uri.parse(url),
-        body: json.encode(payload),
         headers: {
           HttpHeaders.acceptHeader: 'application/json',
           HttpHeaders.contentTypeHeader: 'application/json',
@@ -153,10 +155,13 @@ class AuthenticationService {
           if (data['message'] is String) {
             result.message = data['message'];
           }
-        } else if (data['data'] is Map) {
+        } else if (data['data'] is List) {
+          List<EmergencyHistoryModel> _data = [];
+          data['data'].forEach(
+              (json) => _data.add(EmergencyHistoryModel.fromJson(json)));
           result = NetworkResponse.success(
-            data: data['data'],
             message: data['message'],
+            data: _data,
           );
         }
       } else if (response.statusCode >= HttpStatus.badRequest) {
@@ -169,19 +174,18 @@ class AuthenticationService {
     } finally {
       _client.close();
     }
+
     return result;
   }
 
-  static Future<NetworkResponse> changePassword(
-      Map<String, dynamic> payload, String uid) async {
-    final String endPoint = '/auth/password/$uid';
+  static Future<NetworkResponse> confirmEmergencyRequest(String _id) async {
+    final String endPoint = '/emergency/confirm/$_id';
     final url = baseUrl + endPoint;
     final _client = http.Client();
     var result = NetworkResponse.warning();
     try {
-      final response = await _client.patch(
+      final response = await _client.get(
         Uri.parse(url),
-        body: json.encode(payload),
         headers: {
           HttpHeaders.acceptHeader: 'application/json',
           HttpHeaders.contentTypeHeader: 'application/json',

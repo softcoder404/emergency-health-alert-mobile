@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
+import 'package:health_emergency_report/app/config/injector/get_it.dart';
+import 'package:health_emergency_report/app/config/notifications/notification.dart';
+import 'package:health_emergency_report/app/screens/dashboard/dashboard.controller.dart';
+import 'package:health_emergency_report/core/services/auth_user.injector.dart';
+import 'package:health_emergency_report/core/services/authentication.service.dart';
 
 class SignupController extends GetxController {
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
@@ -27,7 +32,22 @@ class SignupController extends GetxController {
   void onCountryCodeChange(String code) => _countryCode = code;
   void handleOnSignup() async {
     if (formKey.currentState!.validate()) {
-      Get.offNamedUntil('/dashboard', (route) => false);
+      Map<String, dynamic> _payload = {
+        "fullName": fullNameCtrl.text.trim(),
+        "matric": matricCtrl.text.trim().toUpperCase(),
+        "phone": countryCode + phoneCtrl.text.trim(),
+        "hostel": hostelCtrl.text.trim(),
+        "password": passwordCtrl.text.trim(),
+      };
+
+      showCustomLoading(title: 'Authenticating...');
+      final result = await AuthenticationService.register(_payload);
+      hideLoading();
+      if (result.hasError) {
+        notifyError(content: result.message);
+      } else {
+        Get.offNamedUntil('/login', (route) => false);
+      }
     }
   }
 }

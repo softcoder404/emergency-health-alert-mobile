@@ -1,3 +1,4 @@
+import 'package:health_emergency_report/app/config/injector/get_it.dart';
 import 'package:health_emergency_report/app/config/themes/colors.dart';
 import 'package:health_emergency_report/app/config/themes/spacing.dart';
 import 'package:health_emergency_report/app/config/themes/styles.dart';
@@ -5,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:health_emergency_report/app/screens/dashboard/alert/controller/alert.controller.dart';
 import 'package:health_emergency_report/app/screens/dashboard/alert/views/emergency_option_view.dart';
+import 'package:health_emergency_report/core/services/auth_user.injector.dart';
 
 class AlertView extends StatelessWidget {
   AlertView({
@@ -13,11 +15,12 @@ class AlertView extends StatelessWidget {
 
   final AlertController controller =
       Get.put<AlertController>(AlertController());
+  AuthUser _auth = locator<AuthUser>();
   @override
   Widget build(BuildContext context) {
     return GetBuilder<AlertController>(
       builder: (controller) => Scaffold(
-        backgroundColor: white,
+        backgroundColor: kPrimaryBorder.withOpacity(.08),
         appBar: AppBar(
           backgroundColor: white,
           title: Text(
@@ -50,10 +53,7 @@ class AlertView extends StatelessWidget {
               ),
               vSpaceMedium,
               InkWell(
-                onDoubleTap: () => Get.to(
-                  () => EmergencyOptionView(),
-                  transition: Transition.upToDown,
-                ),
+                onDoubleTap: () => Get.to(() => EmergencyOptionView()),
                 child: Container(
                   height: 140,
                   width: 140,

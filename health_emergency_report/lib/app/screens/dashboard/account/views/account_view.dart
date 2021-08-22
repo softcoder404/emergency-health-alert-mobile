@@ -16,7 +16,7 @@ class AccountView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: white,
+      backgroundColor: kPrimaryBorder.withOpacity(.08),
       appBar: AppBar(
         backgroundColor: white,
         title: Text(
@@ -39,7 +39,11 @@ class AccountView extends StatelessWidget {
                 physics: BouncingScrollPhysics(),
                 child: Column(
                   children: [
-                    TopProfileCard(),
+                    TopProfileCard(
+                      fullName: controller.auth.authUser.fullName,
+                      matric: controller.auth.authUser.matric,
+                      hostel: controller.auth.authUser.hostel,
+                    ),
                     vSpaceSmall,
                     AccountMenuCard(
                       title: 'Edit Profile',
@@ -71,12 +75,16 @@ class AccountView extends StatelessWidget {
                               ),
                               vSpaceMedium,
                               TextFormField(
+                                controller: controller.newPwdCtrl,
+                                obscureText: true,
                                 decoration: InputDecoration(
                                   hintText: 'New Password',
                                 ),
                               ),
                               vSpaceMedium,
                               TextFormField(
+                                obscureText: true,
+                                controller: controller.cPwdCtrl,
                                 decoration: InputDecoration(
                                   hintText: 'Confirm New Password',
                                 ),
@@ -84,6 +92,7 @@ class AccountView extends StatelessWidget {
                               Spacer(),
                               PrimaryButton(
                                 title: 'Submit',
+                                onTap: controller.changePassword,
                               ),
                               vSpaceMedium
                             ],
@@ -101,18 +110,21 @@ class AccountView extends StatelessWidget {
               ),
             ),
             vSpaceTiny,
-            Container(
-              height: 50,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                color: kPrimaryColor,
-                borderRadius: BorderRadius.circular(4.0),
-              ),
-              alignment: Alignment.center,
-              child: Text(
-                'Log Out',
-                style: kButtonTextStyle.copyWith(
-                  fontSize: 18,
+            InkWell(
+              onTap: controller.logout,
+              child: Container(
+                height: 50,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  color: kPrimaryColor,
+                  borderRadius: BorderRadius.circular(4.0),
+                ),
+                alignment: Alignment.center,
+                child: Text(
+                  'Log Out',
+                  style: kButtonTextStyle.copyWith(
+                    fontSize: 18,
+                  ),
                 ),
               ),
             ),

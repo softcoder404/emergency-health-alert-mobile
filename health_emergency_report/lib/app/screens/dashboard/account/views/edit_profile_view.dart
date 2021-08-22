@@ -73,10 +73,11 @@ class EditAccountView extends StatelessWidget {
                       vSpaceMedium,
                       TextFormField(
                         style: kBodyText3,
+                        enabled: false,
                         cursorColor: kPrimaryColor,
                         controller: _controller.matricCtrl,
                         focusNode: _controller.matricNode,
-                        validator: validateMatric,
+                        validator: null,
                         onEditingComplete: () => FocusScope.of(context)
                             .requestFocus(_controller.phoneNode),
                         decoration: InputDecoration(
@@ -88,8 +89,9 @@ class EditAccountView extends StatelessWidget {
                       TextFormField(
                         keyboardType: TextInputType.phone,
                         cursorColor: kPrimaryColor,
+                        enabled: false,
                         style: kBodyText2,
-                        validator: validatePhone,
+                        validator: null,
                         controller: _controller.phoneCtrl,
                         focusNode: _controller.phoneNode,
                         onEditingComplete: () => FocusScope.of(context)
@@ -148,9 +150,13 @@ class EditAccountView extends StatelessWidget {
                         ),
                       ),
                       vSpaceMedium,
-                      PrimaryButton(
-                        title: 'Save Changes',
-                        onTap: _controller.handleOnSaveChange,
+                      SizedBox(
+                        height: 50,
+                        width: double.infinity,
+                        child: PrimaryButton(
+                          title: 'Save Changes',
+                          onTap: () => _controller.handleOnSaveChange(),
+                        ),
                       ),
                       vSpaceMedium,
                     ],

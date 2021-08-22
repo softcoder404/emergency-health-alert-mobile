@@ -148,7 +148,7 @@ class SignupView extends StatelessWidget {
                       TextFormField(
                         style: kBodyText3,
                         cursorColor: kPrimaryColor,
-                        obscureText: _controller.showPassword,
+                        obscureText: !_controller.showPassword,
                         validator: validatePassword,
                         controller: _controller.passwordCtrl,
                         focusNode: _controller.passwordNode,
